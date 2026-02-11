@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>For Ayl 🌸</title>
+  <style>
+    :root{
+      --bg1:#fff3f6;
+      --bg2:#fffdf7;
+      --ink:#2b1b1f;
+      --muted:#6b4b55;
+      --accent:#ff4d7d;
+      --accent2:#ffb703;
+      --card:#ffffffcc;
+      --shadow: 0 18px 50px rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      min-height:100vh;
+      background: radial-gradient(1200px 700px at 20% 10%, var(--bg2), transparent 60%),
+                  radial-gradient(1000px 800px at 80% 30%, #ffe3ea, transparent 60%),
+                  linear-gradient(135deg, var(--bg1), #fff);
+      overflow:hidden;
+    }
+
+    .wrap{
+      position:relative;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .card{
+      width:min(880px, 100%);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      min-height: 520px;
+    }
+
+    @media (max-width: 860px){
+      body{overflow:auto}
+      .wrap{height:auto; min-height:100vh; padding:14px}
+      .card{grid-template-columns: 1fr; min-height:auto}
+    }
+
+    .left{
+      padding:26px 26px 20px;
+      position:relative;
+    }
+    .right{
+      padding:26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.05));
+      border-left: 1px solid rgba(255,255,255,.65);
+      position:relative;
+      overflow:hidden;
+    }
+    @media (max-width: 860px){
+      .right{border-left:none; border-top: 1px solid rgba(255,255,255,.65)}
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(26px, 3.4vw, 40px);
+      letter-spacing:-0.02em;
+      line-height:1.05;
+    }
+    p{
+      margin:8px 0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size: 15.5px;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:14px 0 18px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:#ffffffb8;
+      border:1px solid rgba(0,0,0,.06);
+      color:#4e2f38;
+      font-size:13px;
+      user-select:none;
+    }
+    .pill b{color:var(--ink)}
+    .btnrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+    button, .linkbtn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:650;
+      font-size:14px;
+      letter-spacing: .01em;
+      transition: transform .12s ease, filter .12s ease, background .12s ease;
+      user-select:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
+    button:active, .linkbtn:active{transform: translateY(1px) scale(.99)}
+    .primary{
+      background: linear-gradient(135deg, var(--accent), #ff7aa0);
+      color:white;
+      box-shadow: 0 10px 24px rgba(255, 77, 125, .25);
+    }
+    .ghost{
+      background:#ffffffb8;
+      border:1px solid rgba(0,0,0,.08);
+      color:#4e2f38;
+    }
+    .warn{
+      background: linear-gradient(135deg, var(--accent2), #ffd166);
+      color:#3a2a00;
+      box-shadow: 0 10px 24px rgba(255, 183, 3, .25);
+    }
+    .small{
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:650;
+    }
+
+    .stage{
+      position:relative;
+      border-radius:18px;
+      border:1px dashed rgba(0,0,0,.14);
+      background: radial-gradient(700px 420px at 40% 25%, rgba(255,255,255,.65), rgba(255,255,255,.1));
+      height: 330px;
+      overflow:hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
+    }
+    @media (max-width: 860px){
+      .stage{height: 360px}
+    }
+
+    .hud{
+      position:absolute;
+      inset:14px 14px auto 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      z-index:5;
+    }
+    .counter{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:#ffffffc8;
+      border:1px solid rgba(0,0,0,.08);
+      font-size:13px;
+      color:#4e2f38;
+    }
+    .bar{
+      width:160px;
+      height:10px;
+      border-radius:999px;
+      background: rgba(0,0,0,.08);
+      overflow:hidden;
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background: linear-gradient(90deg, var(--accent), #ff9bb5);
+      transition: width .2s ease;
+    }
+
+    .instructions{
+      position:absolute;
+      inset:auto 14px 14px 14px;
+      background:#ffffffc8;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+      padding:12px 12px;
+      color:#4e2f38;
+      z-index:5;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .petal{
+      position:absolute;
+      width:28px;
+      height:28px;
+      border-radius: 40% 60% 55% 45% / 55% 45% 55% 45%;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2) 35%),
+                  linear-gradient(135deg, #ff5c8a, #ffb3c6);
+      box-shadow: 0 10px 18px rgba(255, 92, 138, .25);
+      transform: rotate(var(--r,0deg));
+      opacity:.95;
+      filter: saturate(1.05);
+      animation: floatDown var(--t,6.5s) linear forwards;
+      cursor:pointer;
+      touch-action: manipulation;
+    }
+    .petal::after{
+      content:"";
+      position:absolute;
+      inset:7px 10px 8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.35);
+      transform: rotate(18deg);
+    }
+
+    @keyframes floatDown{
+      0%{ transform: translate(var(--x0,0px), -40px) rotate(var(--r,0deg)); }
+      100%{ transform: translate(var(--x1, 60px), calc(100% + 60px)) rotate(calc(var(--r,0deg) + 220deg)); }
+    }
+
+    .bouquet{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      pointer-events:none;
+      opacity:.9;
+      z-index:1;
+    }
+    .flowerSvg{
+      width:min(320px, 70%);
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.12));
+      animation: breathe 2.8s ease-in-out infinite;
+    }
+    @keyframes breathe{
+      0%,100%{transform: translateY(0px) scale(1)}
+      50%{transform: translateY(-4px) scale(1.01)}
+    }
+
+    .panelTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .tag{
+      font-size:12px;
+      font-weight:700;
+      color:#4e2f38;
+      background:#ffffffb8;
+      border:1px solid rgba(0,0,0,.08);
+      padding:8px 10px;
+      border-radius:999px;
+      user-select:none;
+    }
+
+    .inviteBox{
+      margin-top:14px;
+      padding:14px;
+      border-radius:18px;
+      background:#ffffffc6;
+      border:1px solid rgba(0,0,0,.08);
+    }
+    .inviteLine{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin:10px 0;
+      color:#4e2f38;
+      font-size:14px;
+      line-height:1.35;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), #ff98b1);
+      margin-top:5px;
+      flex:0 0 auto;
+      box-shadow: 0 8px 14px rgba(255,77,125,.25);
+    }
+
+    .locked{
+      opacity:.55;
+      filter: grayscale(.2);
+      pointer-events:none;
+    }
+
+    .photos{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    .ph{
+      aspect-ratio: 4/3;
+      border-radius:16px;
+      background:
+        radial-gradient(200px 130px at 30% 20%, rgba(255,255,255,.9), rgba(255,255,255,.2)),
+        linear-gradient(135deg, rgba(255,77,125,.15), rgba(255,183,3,.12));
+      border:1px solid rgba(0,0,0,.06);
+      overflow:hidden;
+      position:relative;
+    }
+    .ph span{
+      position:absolute;
+      inset:auto 10px 10px 10px;
+      font-size:12px;
+      color:#6b4b55;
+      background:#ffffffc8;
+      border:1px solid rgba(0,0,0,.06);
+      padding:6px 8px;
+      border-radius:999px;
+    }
+    .ph img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      transform: translateX(-50%);
+      bottom:18px;
+      background:#111;
+      color:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index:9999;
+    }
+    .toast.show{
+      opacity:.92;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    /* confetti */
+    .confetti{
+      position:fixed;
+      inset:-20px 0 0 0;
+      pointer-events:none;
+      z-index:9998;
+      overflow:hidden;
+      display:none;
+    }
+    .confetti.show{display:block;}
+    .confetti i{
+      position:absolute;
+      width:10px;height:16px;
+      background: linear-gradient(180deg, var(--accent), #ffd166);
+      opacity:.9;
+      border-radius:3px;
+      animation: confettiFall var(--ct,1.8s) linear forwards;
+      transform: rotate(var(--cr,0deg));
+    }
+    @keyframes confettiFall{
+      from{ transform: translateY(-30px) rotate(var(--cr,0deg)); }
+      to{ transform: translateY(calc(100vh + 60px)) rotate(calc(var(--cr,0deg) + 520deg)); }
+    }
+
+    .footerNote{
+      margin-top:14px;
+      font-size:12.5px;
+      color:#6b4b55;
+      opacity:.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="confetti" id="confetti"></div>
+  <div class="toast" id="toast">Copied ✅</div>
+
+  <div class="wrap">
+    <div class="card">
+      <section class="left">
+        <h1>Hi <span id="name">Ayl</span> 🌸</h1>
+        <p>
+          I brought you flowers… but I may have “accidentally” dropped the petals everywhere.
+          <br/>Help me collect <b>14 petals</b> to unlock something.
+        </p>
+
+        <div class="pillrow">
+          <div class="pill">🌷 <b>Petal Picker</b></div>
+          <div class="pill">💘 sweet + funny</div>
+          <div class="pill">📅 Feb 14</div>
+        </div>
+
+        <div class="stage" id="stage" aria-label="Petal mini-game area">
+          <div class="hud">
+            <div class="counter">
+              <span>Petals:</span>
+              <b id="count">0</b>/<span id="goal">14</span>
+              <span class="bar" aria-hidden="true"><i id="barFill"></i></span>
+            </div>
+            <button class="ghost small" id="spawnBurst" title="If you want more petals 🙂">More petals</button>
+          </div>
+
+          <div class="bouquet" aria-hidden="true">
+            <!-- Simple flower SVG -->
+            <svg class="flowerSvg" viewBox="0 0 260 260">
+              <defs>
+                <radialGradient id="p" cx="30%" cy="30%">
+                  <stop offset="0%" stop-color="#fff"/>
+                  <stop offset="45%" stop-color="#ffd1dc"/>
+                  <stop offset="100%" stop-color="#ff4d7d"/>
+                </radialGradient>
+                <linearGradient id="s" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#2ecc71"/>
+                  <stop offset="100%" stop-color="#0ea5a4"/>
+                </linearGradient>
+              </defs>
+              <g transform="translate(130 130)">
+                <g opacity=".95">
+                  <ellipse rx="54" ry="88" fill="url(#p)" transform="rotate(0) translate(0,-34)"/>
+                  <ellipse rx="54" ry="88" fill="url(#p)" transform="rotate(60) translate(0,-34)"/>
+                  <ellipse rx="54" ry="88" fill="url(#p)" transform="rotate(120) translate(0,-34)"/>
+                  <ellipse rx="54" ry="88" fill="url(#p)" transform="rotate(180) translate(0,-34)"/>
+                  <ellipse rx="54" ry="88" fill="url(#p)" transform="rotate(240) translate(0,-34)"/>
+                  <ellipse rx="54" ry="88" fill="url(#p)" transform="rotate(300) translate(0,-34)"/>
+                </g>
+                <circle r="34" fill="#ffd166"/>
+                <circle r="18" fill="#ffb703" opacity=".9"/>
+                <path d="M0 52 C 20 70, 10 110, 0 120 C -10 110, -20 70, 0 52 Z" fill="url(#s)" opacity=".95"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="instructions" id="instructions">
+            <b>How to play:</b> tap/click petals as they fall. <br/>
+            Collect <b>14</b> to unlock the invite. (If this feels like work, I can pay in snacks.)
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button class="primary" id="startBtn">Start raining petals</button>
+          <button class="ghost" id="resetBtn">Reset</button>
+        </div>
+
+        <p class="footerNote">
+          Tip: works best on phone too. If nothing falls, hit “More petals” once 🙂
+        </p>
+      </section>
+
+      <section class="right">
+        <div class="panelTitle">
+          <h2 style="margin:0; font-size:18px; letter-spacing:-0.01em;">Unlocked invite</h2>
+          <div class="tag" id="lockTag">🔒 locked</div>
+        </div>
+
+        <p id="rightLead">
+          This part unlocks after you collect the petals.
+          <br/>No pressure. But also… I will be very proud of you.
+        </p>
+
+        <div class="inviteBox locked" id="inviteBox" aria-live="polite">
+          <div class="inviteLine">
+            <div class="dot"></div>
+            <div><b>Date:</b> Friday, Feb 14</div>
+          </div>
+          <div class="inviteLine">
+            <div class="dot"></div>
+            <div><b>Dress code:</b> whatever makes you feel pretty (or comfy… or both)</div>
+          </div>
+          <div class="inviteLine">
+            <div class="dot"></div>
+            <div><b>Ready by:</b> ~10:30 AM</div>
+          </div>
+          <div class="inviteLine" id="insideJokeLine" style="display:none;">
+            <div class="dot"></div>
+            <div id="insideJokeText"></div>
+          </div>
+
+          <div class="btnrow" style="margin-top:14px;">
+            <button class="primary" id="yesBtn">Yes 🌷</button>
+            <button class="warn" id="maybeBtn">Maybe 😌</button>
+            <button class="ghost" id="reschedBtn">Resched 🙏</button>
+          </div>
+
+          <div class="btnrow" style="margin-top:10px;">
+            <button class="ghost" id="copyBtn">Copy my reply</button>
+            <a class="linkbtn ghost" id="spotifyBtn" href="#" target="_blank" rel="noopener">Spotify 🎵</a>
+          </div>
+
+          <p style="margin-top:12px; font-size:13px;">
+            <b>Note:</b> If you say “Yes”, I’ll send the full details. If you say “Maybe/Resched”, I’ll still be happy — just tell me what works.
+          </p>
+        </div>
+
+        <div class="photos" id="photos">
+          <div class="ph" data-slot="1"><span>photo spot #1</span></div>
+          <div class="ph" data-slot="2"><span>photo spot #2</span></div>
+          <div class="ph" data-slot="3"><span>photo spot #3</span></div>
+        </div>
+
+        <p class="footerNote">
+          (Optional) You can add photos later — the slots are ready. <br/>
+          Also: the Spotify button is a placeholder until you paste your link.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // Personalization (edit these)
+    // =========================
+    const CONFIG = {
+      name: "Ayl",
+      goalPetals: 14,
+      spotifyLink: "https://open.spotify.com/", // <-- paste your playlist/song link
+      insideJokeLine: "" // e.g. "Also: yes, I promise no 'one more store' detours… unless you ask 😅"
+    };
+
+    // Optional photos: set to image URLs (hosted), e.g. ["img1.jpg","img2.jpg","img3.jpg"]
+    // If empty, placeholders remain.
+    const PHOTO_URLS = [
+      // "https://yourhost.com/photo1.jpg",
+      // "https://yourhost.com/photo2.jpg",
+      // "https://yourhost.com/photo3.jpg"
+    ];
+
+    // =========================
+    // State
+    // =========================
+    const stage = document.getElementById("stage");
+    const startBtn = document.getElementById("startBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const spawnBurst = document.getElementById("spawnBurst");
+    const countEl = document.getElementById("count");
+    const goalEl = document.getElementById("goal");
+    const barFill = document.getElementById("barFill");
+    const lockTag = document.getElementById("lockTag");
+    const inviteBox = document.getElementById("inviteBox");
+    const rightLead = document.getElementById("rightLead");
+    const toast = document.getElementById("toast");
+    const confetti = document.getElementById("confetti");
+
+    const yesBtn = document.getElementById("yesBtn");
+    const maybeBtn = document.getElementById("maybeBtn");
+    const reschedBtn = document.getElementById("reschedBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const spotifyBtn = document.getElementById("spotifyBtn");
+
+    const nameEl = document.getElementById("name");
+    const insideJokeLine = document.getElementById("insideJokeLine");
+    const insideJokeText = document.getElementById("insideJokeText");
+
+    let petalsCollected = 0;
+    let raining = false;
+    let rainTimer = null;
+
+    // =========================
+    // Init
+    // =========================
+    function init(){
+      nameEl.textContent = CONFIG.name;
+      goalEl.textContent = CONFIG.goalPetals;
+      spotifyBtn.href = CONFIG.spotifyLink || "https://open.spotify.com/";
+      if (CONFIG.insideJokeLine && CONFIG.insideJokeLine.trim().length){
+        insideJokeText.textContent = CONFIG.insideJokeLine.trim();
+        insideJokeLine.style.display = "flex";
+      }
+
+      // Load photos if provided
+      if (PHOTO_URLS.length){
+        const slots = document.querySelectorAll(".ph");
+        PHOTO_URLS.slice(0,3).forEach((url, idx) => {
+          const slot = slots[idx];
+          if (!slot) return;
+          slot.innerHTML = "";
+          const img = document.createElement("img");
+          img.src = url;
+          img.alt = "photo";
+          slot.appendChild(img);
+        });
+      }
+
+      updateUI();
+    }
+
+    // =========================
+    // Game logic
+    // =========================
+    function updateUI(){
+      countEl.textContent = petalsCollected;
+      const pct = Math.min(100, (petalsCollected / CONFIG.goalPetals) * 100);
+      barFill.style.width = pct + "%";
+
+      if (petalsCollected >= CONFIG.goalPetals){
+        unlockInvite();
+      }
+    }
+
+    function startRain(){
+      if (raining) return;
+      raining = true;
+      startBtn.textContent = "Petals incoming…";
+      startBtn.disabled = true;
+
+      // spawn a few immediately
+      spawnPetals(8);
+
+      // then keep spawning
+      rainTimer = setInterval(() => {
+        spawnPetals(3);
+      }, 700);
+    }
+
+    function stopRain(){
+      raining = false;
+      startBtn.textContent = "Start raining petals";
+      startBtn.disabled = false;
+      if (rainTimer) clearInterval(rainTimer);
+      rainTimer = null;
+    }
+
+    function resetAll(){
+      stopRain();
+      petalsCollected = 0;
+      // remove existing petals
+      stage.querySelectorAll(".petal").forEach(p => p.remove());
+      // lock
+      lockTag.textContent = "🔒 locked";
+      inviteBox.classList.add("locked");
+      rightLead.innerHTML = `This part unlocks after you collect the petals.<br/>No pressure. But also… I will be very proud of you.`;
+      updateUI();
+    }
+
+    function spawnPetals(n){
+      const rect = stage.getBoundingClientRect();
+      for (let i=0;i<n;i++){
+        const p = document.createElement("div");
+        p.className = "petal";
+        // randomize
+        const startX = Math.random() * (rect.width - 30);
+        const drift = (Math.random() * 140) - 70;
+        const dur = 4.6 + Math.random()*3.2;
+        const rot = (Math.random()*120 - 60).toFixed(1);
+
+        p.style.left = startX + "px";
+        p.style.top = "-40px";
+        p.style.setProperty("--x0", "0px");
+        p.style.setProperty("--x1", drift + "px");
+        p.style.setProperty("--t", dur + "s");
+        p.style.setProperty("--r", rot + "deg");
+
+        // Slight color variation
+        const hueShift = (Math.random()*10 - 5);
+        p.style.filter = `saturate(1.05) hue-rotate(${hueShift}deg)`;
+
+        // click/tap to collect
+        let collected = false;
+        const collect = (e) => {
+          e.preventDefault();
+          if (collected) return;
+          collected = true;
+          petalsCollected += 1;
+          // pop animation
+          p.animate([
+            { transform: "scale(1) rotate(0deg)", opacity: 0.95 },
+            { transform: "scale(1.35) rotate(25deg)", opacity: 0.0 }
+          ], { duration: 220, easing: "ease-out" });
+          setTimeout(()=>p.remove(), 180);
+          updateUI();
+
+          if (petalsCollected >= CONFIG.goalPetals){
+            // stop raining soon so the screen calms down
+            setTimeout(stopRain, 900);
+          }
+        };
+
+        p.addEventListener("click", collect, {passive:false});
+        p.addEventListener("touchstart", collect, {passive:false});
+
+        // auto-cleanup after animation ends
+        p.addEventListener("animationend", () => p.remove());
+
+        stage.appendChild(p);
+      }
+    }
+
+    function unlockInvite(){
+      lockTag.textContent = "🔓 unlocked";
+      inviteBox.classList.remove("locked");
+      rightLead.innerHTML = `Okay wow. You did it.<br/><b>Will you be my Valentine?</b> 🌸`;
+      burstConfetti();
+    }
+
+    // =========================
+    // Buttons / responses
+    // =========================
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"), 1200);
+    }
+
+    function buildReply(type){
+      const base = {
+        yes: `Yes 🌷 I’ll be ready by ~10:30am on Feb 14. (Also I demand snacks.)`,
+        maybe: `Maybe 😌 Feb 14 sounds nice — what’s the plan?`,
+        resched: `Can we reschedule? 🙏 Still want to see you though.`
+      };
+      return base[type] || base.yes;
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("Copied ✅");
+      }catch{
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        showToast("Copied ✅");
+      }
+    }
+
+    function burstConfetti(){
+      confetti.classList.add("show");
+      confetti.innerHTML = "";
+      const pieces = 80;
+      for (let i=0;i<pieces;i++){
+        const c = document.createElement("i");
+        const x = Math.random() * 100; // vw
+        const d = 1.2 + Math.random()*1.6;
+        const r = (Math.random()*180 - 90);
+        c.style.left = x + "vw";
+        c.style.setProperty("--ct", d + "s");
+        c.style.setProperty("--cr", r + "deg");
+        c.style.opacity = (0.65 + Math.random()*0.35).toFixed(2);
+        confetti.appendChild(c);
+        c.addEventListener("animationend", () => c.remove());
+      }
+      setTimeout(()=>confetti.classList.remove("show"), 2000);
+    }
+
+    // =========================
+    // Wire up
+    // =========================
+    startBtn.addEventListener("click", startRain);
+    resetBtn.addEventListener("click", resetAll);
+    spawnBurst.addEventListener("click", () => spawnPetals(10));
+
+    yesBtn.addEventListener("click", () => copyText(buildReply("yes")));
+    maybeBtn.addEventListener("click", () => copyText(buildReply("maybe")));
+    reschedBtn.addEventListener("click", () => copyText(buildReply("resched")));
+    copyBtn.addEventListener("click", () => {
+      // Default: copy the "Yes" message (you can change)
+      copyText(buildReply("yes"));
+    });
+
+    // If she reaches the goal without pressing Start (by burst), still unlock
+    stage.addEventListener("click", () => {
+      if (petalsCollected >= CONFIG.goalPetals) unlockInvite();
+    });
+
+    // Kickoff
+    init();
+  </script>
+</body>
+</html>
